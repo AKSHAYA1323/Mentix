@@ -80,6 +80,48 @@ html {
   scroll-behavior: smooth; 
 }
 
+/* --- CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.35);
+  border-radius: 999px;
+  transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.8);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+body.light-mode ::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.25);
+}
+
+body.light-mode ::-webkit-scrollbar-thumb:hover {
+  background: rgba(79, 70, 229, 0.7);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(99, 102, 241, 0.35) transparent;
+}
+
+body.light-mode * {
+  scrollbar-color: rgba(99, 102, 241, 0.25) transparent;
+}
+
 body { 
   font-family: 'Inter', sans-serif; 
   background: var(--dark);
@@ -4411,3 +4453,646 @@ body:not(.light-mode) .chatbot-header p {
 }
 
 /* //project  */
+
+/* ========================================
+   GET IN TOUCH — CONTACT PAGE STYLES
+   ======================================== */
+
+.git-contact-wrapper {
+  min-height: 80vh;
+  background-color: #05050f;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 32px 48px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+.git-glow {
+  position: absolute;
+  left: -10%;
+  top: 30%;
+  width: 1000px;
+  height: 1000px;
+  border-radius: 50%;
+  background: rgba(27, 17, 92, 0.28);
+  filter: blur(180px);
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.git-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
+  padding: 8px 0 48px;
+}
+
+/* ---- Left Side ---- */
+.git-left {
+  flex: 0 0 38%;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 8px;
+}
+
+.git-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background-color: #222538;
+  border: 1px solid rgba(107, 114, 128, 0.4);
+  font-size: 12px;
+  font-weight: 700;
+  color: #d1d5db;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+
+.git-heading {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.git-subtext {
+  color: #a0a8cc;
+  font-size: 1.1rem;
+  font-weight: 500;
+  max-width: 320px;
+  line-height: 1.7;
+}
+
+.git-email-link {
+  color: #6366f1;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.git-email-link:hover {
+  color: #818cf8;
+  border-bottom-color: #6366f1;
+}
+
+/* ---- Right Side Form ---- */
+.git-right {
+  flex: 0 0 52%;
+  min-width: 300px;
+  max-width: 580px;
+}
+
+.git-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---- Field ---- */
+.git-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.git-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #e2e8f0;
+  letter-spacing: 0.04em;
+  margin-left: 4px;
+}
+
+.git-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.git-char-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ---- Input Wrapper ---- */
+.git-input-wrap {
+  position: relative;
+}
+
+.git-input-icon {
+  position: absolute;
+  top: 50%;
+  left: 22px;
+  transform: translateY(-50%);
+  color: #6b7280;
+  font-size: 15px;
+  pointer-events: none;
+  transition: color 0.2s;
+}
+
+.git-input-wrap:focus-within .git-input-icon {
+  color: #6366f1;
+}
+
+.git-input {
+  width: 100%;
+  padding: 7px 16px 7px 40px;
+  background-color: #121424;
+  border: 1px solid #2b2e4a;
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.git-input::placeholder {
+  color: #6b7280;
+}
+
+.git-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* ---- Phone ---- */
+.git-phone-wrap {
+  display: flex;
+  border-radius: 16px;
+  border: 1px solid #2b2e4a;
+  background-color: #121424;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.git-phone-wrap:focus-within {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.git-phone-prefix {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  background-color: #1e2038;
+  border-right: 1px solid #2b2e4a;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.git-phone-prefix:hover {
+  background-color: #252845;
+}
+
+.git-prefix-flag {
+  font-size: 1.2rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.git-country-select {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  background: #121424;
+  color: #ffffff;
+}
+
+.git-country-select option {
+  background-color: #1a1a2e;
+  color: #ffffff;
+}
+
+body.light-mode .git-country-select {
+  background: #ffffff;
+  color: #1a1a2e;
+}
+
+body.light-mode .git-country-select option {
+  background-color: #ffffff;
+  color: #1a1a2e;
+}
+
+.git-chevron {
+  color: #6b7280;
+  font-size: 10px;
+  pointer-events: none;
+}
+
+.git-phone-input-wrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.git-dial-code {
+  font-size: 14px;
+  font-weight: 600;
+  color: #a0a8cc;
+  padding-left: 14px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.git-phone-input {
+  width: 100%;
+  padding: 7px 36px 7px 14px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.git-phone-input::placeholder {
+  color: #6b7280;
+}
+
+.git-question-icon {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  color: #4b5563;
+  font-size: 15px;
+  pointer-events: none;
+}
+
+/* ---- Textarea ---- */
+.git-textarea-wrap {
+  position: relative;
+}
+
+.git-textarea {
+  width: 100%;
+  padding: 9px 14px 30px 14px;
+  background-color: #121424;
+  border: 1px solid #2b2e4a;
+  border-radius: 16px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+}
+
+.git-textarea::placeholder {
+  color: #6b7280;
+}
+
+.git-textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12), 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.git-resize-icon {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  opacity: 0.3;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.git-textarea-wrap:hover .git-resize-icon {
+  opacity: 0.6;
+}
+
+/* ---- Checkbox ---- */
+.git-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.git-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid #2b2e4a;
+  background-color: #121424;
+  cursor: pointer;
+  appearance: none;
+  flex-shrink: 0;
+  transition: background-color 0.25s, border-color 0.25s;
+  position: relative;
+}
+
+.git-checkbox:checked {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+.git-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 6px;
+  height: 10px;
+  border: 2px solid #ffffff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.git-checkbox-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #d1d5db;
+  user-select: none;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.git-checkbox-row:hover .git-checkbox-label {
+  color: #ffffff;
+}
+
+.git-policy-link {
+  color: #6366f1;
+  text-decoration: none;
+  transition: text-decoration 0.2s;
+}
+.git-policy-link:hover {
+  text-decoration: underline;
+}
+
+/* ---- Status Message ---- */
+.git-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.git-status--success {
+  background-color: rgba(34, 197, 94, 0.08);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.git-status--error {
+  background-color: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* ---- Submit Button ---- */
+.git-submit-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 24px;
+  background-color: #6366f1;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: inherit;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+  transition: background-color 0.25s, transform 0.2s, box-shadow 0.2s;
+}
+
+.git-submit-btn:hover {
+  background-color: #4f46e5;
+  transform: scale(1.02);
+  box-shadow: 0 14px 48px rgba(99, 102, 241, 0.4);
+}
+
+.git-submit-btn:active {
+  transform: scale(0.98);
+}
+
+.git-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.git-btn-arrow {
+  transition: transform 0.25s;
+}
+
+.git-submit-btn:hover .git-btn-arrow {
+  transform: translateX(6px);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .git-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+    padding: 32px 0;
+  }
+
+  .git-left,
+  .git-right {
+    flex: 0 0 100%;
+    max-width: 100%;
+    min-width: unset;
+  }
+
+  .git-heading {
+    font-size: 2.8rem;
+  }
+}
+
+/* ---- Light Mode Overrides ---- */
+body.light-mode .git-contact-wrapper {
+  background-color: #f4f6f8;
+  color: #1a1a2e;
+}
+
+body.light-mode .git-glow {
+  background: rgba(99, 102, 241, 0.1);
+}
+
+body.light-mode .git-badge {
+  background-color: #e8e8f5;
+  border-color: rgba(99, 102, 241, 0.25);
+  color: #4f46e5;
+}
+
+body.light-mode .git-heading {
+  color: #1a1a2e;
+}
+
+body.light-mode .git-subtext {
+  color: #5a647e;
+}
+
+body.light-mode .git-email-link {
+  color: #4f46e5;
+}
+body.light-mode .git-email-link:hover {
+  color: #3730a3;
+  border-bottom-color: #4f46e5;
+}
+
+body.light-mode .git-label {
+  color: #374151;
+}
+
+body.light-mode .git-char-count {
+  color: #9ca3af;
+}
+
+body.light-mode .git-input {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #1a1a2e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .git-input::placeholder {
+  color: #9ca3af;
+}
+
+body.light-mode .git-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .git-input-icon {
+  color: #9ca3af;
+}
+
+body.light-mode .git-input-wrap:focus-within .git-input-icon {
+  color: #6366f1;
+}
+
+body.light-mode .git-phone-wrap {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .git-phone-wrap:focus-within {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .git-phone-prefix {
+  background-color: #f3f4f6;
+  border-right-color: #d1d5db;
+}
+
+body.light-mode .git-phone-prefix:hover {
+  background-color: #e5e7eb;
+}
+
+body.light-mode .git-phone-input {
+  color: #1a1a2e;
+}
+
+body.light-mode .git-phone-input::placeholder {
+  color: #9ca3af;
+}
+
+body.light-mode .git-dial-code {
+  color: #6366f1;
+}
+
+body.light-mode .git-chevron {
+  color: #9ca3af;
+}
+
+body.light-mode .git-textarea {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #1a1a2e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .git-textarea::placeholder {
+  color: #9ca3af;
+}
+
+body.light-mode .git-textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+body.light-mode .git-checkbox {
+  background-color: #f9fafb;
+  border-color: #d1d5db;
+}
+
+body.light-mode .git-checkbox:checked {
+  background-color: #6366f1;
+  border-color: #6366f1;
+}
+
+body.light-mode .git-checkbox-label {
+  color: #374151;
+}
+
+body.light-mode .git-checkbox-row:hover .git-checkbox-label {
+  color: #1a1a2e;
+}
+
+body.light-mode .git-policy-link {
+  color: #4f46e5;
+}
+
+body.light-mode .git-submit-btn {
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.3);
+}
+
+body.light-mode .git-submit-btn:hover {
+  box-shadow: 0 10px 32px rgba(99, 102, 241, 0.4);
+}
