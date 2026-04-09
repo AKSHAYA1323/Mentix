@@ -1,0 +1,73 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:5000').replace(/\/$/, '');
+
+const AuthContext = createContext();
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+export const AuthProvider = ({ children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loggedIn = localStorage.getItem('userLoggedIn');
+    const email = localStorage.getItem('userEmail');
+    const storedToken = localStorage.getItem('token');
+    if (loggedIn === 'true' && email && storedToken) {
+      setIsLoggedIn(true);
+      setUserEmail(email);
+      setToken(storedToken);
+    }
+    setLoading(false); // <-- Add this line
+  }, []);
+
+  const login = async (email, password) => {
+    try {
+      const res = await axios.post(`${API_URL}/api/auth/login`, { email, password }); // <-- Use API_URL here
+      const { token, user } = res.data;
+      localStorage.setItem('userLoggedIn', 'true');
+      localStorage.setItem('userEmail', user.email);
+      localStorage.setItem('userName', user.name); // <-- Add this line
+      localStorage.setItem('token', token);
+      setIsLoggedIn(true);
+      setUserEmail(user.email);
+      setToken(token);
+      return user;
+    } catch (err) {
+      if (err.response?.data?.msg) {
+        throw new Error(err.response.data.msg);
+      }
+      throw new Error('Unable to reach login service. Ensure backend is running on port 5000 or set VITE_API_URL.');
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem('userLoggedIn');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    setUserEmail('');
+    setToken('');
+  };
+
+  const value = {
+    isLoggedIn,
+    userEmail,
+    token,
+    login,
+    logout,
+    loading, // <-- Add this
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
