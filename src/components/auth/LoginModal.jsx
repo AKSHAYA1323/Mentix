@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,13 @@ const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
   const [error, setError] = useState('');
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isOpen) {
+      setError('');
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -103,7 +110,11 @@ const LoginModal = ({ isOpen, onClose, onSwitchToSignup }) => {
         </div>
         
         <div className="auth-footer">
-          No account? <button onClick={onSwitchToSignup} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', textDecoration: 'underline' }}>Sign up</button>
+          No account? <button onClick={() => {
+            setError('');
+            setPassword('');
+            onSwitchToSignup();
+          }} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', textDecoration: 'underline' }}>Sign up</button>
         </div>
       </div>
     </div>

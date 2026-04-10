@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../hooks/useTheme';
+import { buildApiUrl } from '../../config/api';
 import Roadmap from './Roadmap';
 import LearningResources from './LearningResources';
 import Projects from './Projects';
 import Progress from './Progress';
 import InterviewPrep from './InterviewPrep';
 import Settings from './Settings';
-
-const API_URL = import.meta.env.VITE_API_URL; // <-- Add this line
+import WeeklyTests from './WeeklyTests';
+import ResumeAnalyzer from './ResumeAnalyzer';
+import MentorAssistant from './MentorAssistant';
 
 function formatAiResponse(text) {
   if (!text || text.split(' ').length <= 20) return text;
@@ -70,7 +72,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
         // Fetch roadmap
-        const roadmapRes = await fetch(`${API_URL}/api/roadmap`, { // <-- Use API_URL
+        const roadmapRes = await fetch(buildApiUrl('/api/roadmap'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const roadmapData = await roadmapRes.json();
@@ -82,7 +84,7 @@ const Dashboard = () => {
           setUserSkills([]);
         }
         // Fetch progress
-        const progressRes = await fetch(`${API_URL}/api/progress`, { // <-- Use API_URL
+        const progressRes = await fetch(buildApiUrl('/api/progress'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const progressData = await progressRes.json();
@@ -274,6 +276,56 @@ const Dashboard = () => {
     generateResources(careerPath);
   };
 
+  const handleResumeRoadmapGenerated = async ({
+    steps,
+    dreamGoal,
+    knowledgeLevel,
+    knowledgeDetails,
+    duration,
+    dailyTime,
+  }) => {
+    if (!Array.isArray(steps) || steps.length === 0) {
+      return;
+    }
+
+    setRoadmapSteps(steps);
+    setCompletedSteps(new Set());
+
+    if (token) {
+      try {
+        await fetch(buildApiUrl('/api/roadmap'), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            steps,
+            dreamGoal,
+            duration,
+            knowledgeLevel,
+            knowledgeDetails,
+            dailyTime
+          })
+        });
+
+        await fetch(buildApiUrl('/api/progress'), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ completedSteps: [] })
+        });
+      } catch (err) {
+        console.error('Error saving generated roadmap:', err);
+      }
+    }
+
+    setCurrentPage('roadmap');
+    window.alert('Roadmap generated from resume skill gaps and saved successfully.');
+  };
+
   const resetDashboard = async () => {
     setUserSkills([]);
     setCompletedSteps(new Set());
@@ -284,13 +336,13 @@ const Dashboard = () => {
     if (token) {
       try {
         // Reset roadmap to empty
-        await fetch(`${API_URL}/api/roadmap`, { // <-- Use API_URL
+        await fetch(buildApiUrl('/api/roadmap'), {
           method: 'DELETE',
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
         // Reset progress to empty
-        await fetch(`${API_URL}/api/progress`, { // <-- Use API_URL
+        await fetch(buildApiUrl('/api/progress'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -476,6 +528,15 @@ const Dashboard = () => {
           <a href="#" className={`nav-item ${currentPage === 'interview' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentPage('interview'); }}>
             <i className="fas fa-comments"></i><span>Interview Prep</span>
           </a>
+          <a href="#" className={`nav-item ${currentPage === 'weekly-tests' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentPage('weekly-tests'); }}>
+            <i className="fas fa-calendar-check"></i><span>Weekly Tests</span>
+          </a>
+          <a href="#" className={`nav-item ${currentPage === 'resume-analyzer' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentPage('resume-analyzer'); }}>
+            <i className="fas fa-file-alt"></i><span>Resume Analyzer</span>
+          </a>
+          <a href="#" className={`nav-item ${currentPage === 'mentor-assistant' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentPage('mentor-assistant'); }}>
+            <i className="fas fa-user-graduate"></i><span>Mentor Assistant</span>
+          </a>
           <a href="#" className={`nav-item ${currentPage === 'settings' ? 'active' : ''}`} onClick={(e) => { e.preventDefault(); setCurrentPage('settings'); }}>
             <i className="fas fa-cog"></i><span>Settings</span>
           </a>
@@ -659,6 +720,18 @@ const Dashboard = () => {
             toggleTheme={toggleTheme}
             resetDashboard={resetDashboard}
           />
+        )}
+
+        {currentPage === 'weekly-tests' && (
+          <WeeklyTests />
+        )}
+
+        {currentPage === 'resume-analyzer' && (
+          <ResumeAnalyzer onRoadmapGenerated={handleResumeRoadmapGenerated} />
+        )}
+
+        {currentPage === 'mentor-assistant' && (
+          <MentorAssistant />
         )}
       </main>
 

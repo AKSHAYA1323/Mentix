@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-
-const API_URL = import.meta.env.VITE_API_URL; // Add this line
+import { buildApiUrl } from '../../config/api';
 
 // Mock API function - replace with your actual Gemini API endpoint
 const fetchSkillsFromAPI = async (careerPath, apiKey) => {
@@ -91,7 +90,7 @@ const Progress = ({ completedSteps, setCompletedSteps, careerPath, roadmapSteps,
     const fetchProgress = async () => {
       if (!token) return;
       try {
-        const res = await fetch(`${API_URL}/api/progress`, { // Use API_URL here
+        const res = await fetch(buildApiUrl('/api/progress'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -110,7 +109,7 @@ const Progress = ({ completedSteps, setCompletedSteps, careerPath, roadmapSteps,
     if (!token || !completedSteps) return;
     const saveProgress = async () => {
       try {
-        await fetch(`${API_URL}/api/progress`, { // Use API_URL here
+        await fetch(buildApiUrl('/api/progress'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

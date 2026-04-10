@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useAuth } from '../../contexts/AuthContext';
+import { buildApiUrl } from '../../config/api';
 
 const knowledgeLevels = [
   { value: 'beginner', label: 'Beginner' },
@@ -18,8 +19,6 @@ function getUniqueStepName(base, usedNames, fallback) {
   usedNames.add(name);
   return name;
 }
-
-const API_URL = import.meta.env.VITE_API_URL;
 
 const Roadmap = ({ completedSteps, setCompletedSteps }) => {
   const { token } = useAuth();
@@ -44,7 +43,7 @@ const Roadmap = ({ completedSteps, setCompletedSteps }) => {
     const fetchRoadmap = async () => {
       if (!token) return;
       try {
-        const res = await fetch(`${API_URL}/api/roadmap`, {
+        const res = await fetch(buildApiUrl('/api/roadmap'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await res.json();
@@ -170,7 +169,7 @@ const Roadmap = ({ completedSteps, setCompletedSteps }) => {
         setRoadmapSteps(steps);
         // Save to backend
         if (token) {
-          await fetch(`${API_URL}/api/roadmap`, {
+          await fetch(buildApiUrl('/api/roadmap'), {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

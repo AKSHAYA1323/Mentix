@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL; // Add this line
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +11,16 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isOpen) {
+      setError('');
+      setSuccess('');
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,15 +28,18 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
     setError('');
     setSuccess('');
     try {
-      await axios.post(`${API_URL}/api/auth/register`, formData); // Use API_URL here
-      localStorage.setItem('userName', formData.name); // Store the name
-      setSuccess('Account created successfully! Please login with your credentials.');
+      await register(formData);
+      setSuccess('Account created successfully. You are now logged in.');
       setLoading(false);
       setTimeout(() => {
-        onSwitchToLogin();
-      }, 1200);
+        setFormData({ name: '', email: '', password: '' });
+        setError('');
+        setSuccess('');
+        onClose();
+        navigate('/dashboard');
+      }, 600);
     } catch (err) {
-      setError(err.response?.data?.msg || 'Signup failed');
+      setError(err.message || 'Signup failed');
       setLoading(false);
     }
   };
@@ -109,7 +121,11 @@ const SignupModal = ({ isOpen, onClose, onSwitchToLogin }) => {
         {error && <div style={{color:'red', marginTop:8}}>{error}</div>}
         {success && <div style={{color:'green', marginTop:8}}>{success}</div>}
         <div className="auth-footer">
-          Already have an account? <button onClick={onSwitchToLogin} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', textDecoration: 'underline' }}>Log in</button>
+          Already have an account? <button onClick={() => {
+            setError('');
+            setSuccess('');
+            onSwitchToLogin();
+          }} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', textDecoration: 'underline' }}>Log in</button>
         </div>
       </div>
     </div>

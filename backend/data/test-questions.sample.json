@@ -1,0 +1,44 @@
+[
+  {
+    "role": "Full-Stack Developer",
+    "topic": "Backend APIs",
+    "questions": [
+      {
+        "question": "Which HTTP method is typically used to update an existing resource?",
+        "options": {
+          "A": "GET",
+          "B": "POST",
+          "C": "PUT",
+          "D": "TRACE"
+        },
+        "answer": "C"
+      },
+      {
+        "question": "What does React use to identify changed list items efficiently?",
+        "options": {
+          "A": "Refs",
+          "B": "Keys",
+          "C": "Hooks",
+          "D": "Props"
+        },
+        "answer": "B"
+      }
+    ]
+  },
+  {
+    "role": "AI Engineer",
+    "topic": "Deep Learning",
+    "questions": [
+      {
+        "question": "Which metric is most commonly used to measure classification correctness?",
+        "options": {
+          "A": "Accuracy",
+          "B": "MAE",
+          "C": "RMSE",
+          "D": "Variance"
+        },
+        "answer": "A"
+      }
+    ]
+  }
+]
